@@ -82,16 +82,19 @@ int main(){
 
         arch.close();
 
-        cout << "Matriz leida del archivo: " << endl;
-        for(int i = 0;i<n;i++){
-            for(int j=0;j<n;j++){
-                cout << matriz[i][j] << " ";
+    cout << "Nodos existentes:" << endl;
+    for(int i = 0;i<n;i++){
+        for(int j=0; j<n; j++){
+            if(matriz[i][j] !=0 || matriz [j][i] != 0 || i ==j){
+                existe = true;
+                break;
             }
-            cout << endl;
         }
+    }
+    cout << endl;
 
     char nodo_destino;
-    cout << "Ingrese hasta que nodo quiere llegar (A, B, C, D, E...): ";
+    cout << "Ingrese hasta que nodo quiere llegar: ";
     cin >> nodo_destino;
 
     int dest = nodo_destino - 'A';
