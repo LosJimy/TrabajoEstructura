@@ -14,8 +14,15 @@ int main(){
 
     string linea;
     if(arch.is_open()){
-        while(getline(arch, linea)){
-            cout << linea << endl;
+        int n;
+        arch >> n;
+        arch.ignore();
+
+        for(int i=0; i<n;i++){
+            for(int j =0; j<n;j++){
+                arch >> linea;
+                cout << linea << endl;
+            }
         }
         arch.close();
     }else{
