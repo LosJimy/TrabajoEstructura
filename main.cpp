@@ -44,7 +44,10 @@ void dijkstra(const vector<vector<int>> &graph, int src, int dest){
         }
 
         for(int i = path.size() -1; i >=0; i--){
-            cout << path[i] << " ";
+            cout << char('A' + path[i]);
+            if (i > 0){
+                cout << "->";
+            }
         }
         cout << endl;
     }
