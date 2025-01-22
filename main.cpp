@@ -10,41 +10,54 @@ using namespace std;
 
 const int INF = numeric_limits<int>::max();
 
-void dijkstra(const vector<vector<int>> &graph, int src, int dest){
-    int n = graph.size();
-    vector<int> dist(n,INF);
-    vector<int> parent(n, -1);
-    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
+class Nodo{
+public: 
+    pair<char, int> nombreIndice;
+    vector<pair<Nodo*, int>> vecinos;
 
-    dist[src] = 0;
-    pq.push({0, src});
+    Nodo(char c, int index){
+        nombreIndice = {c, index};
+    }
+};
 
-    while(!pq.empty()){
-        int u = pq.top().second;
-        pq.pop();
+void dijkstra(vector<Nodo*> &grafico, int inicio, int destino){
+    int n = grafico.size();
+    vector<int> distancia(n,INF);
+    vector<int> padre(n, -1);
+    priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> colaPrioridad;
 
-        for (int v =0; v<n;v++){
-            if(graph[u][v] && dist[u] + graph[u][v] < dist[v]){
-                dist[v] = dist[u] + graph[u][v];
-                parent[v] =u;
-                pq.push({dist[v], v});
+    distancia[inicio] = 0;
+    colaPrioridad.push({0, inicio});
+
+    while(!colaPrioridad.empty()){
+        int u = colaPrioridad.top().second;
+        colaPrioridad.pop();
+
+        for(auto &vecino : grafico[u]->vecinos){
+            int v = vecino.first->nombreIndice.second;
+            int peso = vecino.second;
+
+            if(distancia[u] + peso < distancia[v]){
+                distancia[v] = distancia[u] + peso;
+                padre[v] = u;;
+                colaPrioridad.push({distancia[v], v});
             }
         }
     }
 
-    if (dist[dest] == INF){
+    if (distancia[destino] == INF){
         cout << "No hay un camino desde el nodo inicial hasta el nodo destino." << endl;
     } else{
-        cout << "La distancia minima desde el nodo inicial hasta el nodo destino es: " << dist[dest] << endl;
+        cout << "La distancia minima desde el nodo inicial hasta el nodo destino es: " << distancia[destino] << endl;
         cout << "El camino mas corto es: ";
 
-        vector<int> path;
-        for (int v= dest; v != -1; v = parent[v]) {
-            path.push_back(v);
+        vector<int> camino;
+        for (int v= destino; v != -1; v = padre[v]) {
+            camino.push_back(v);
         }
 
-        for(int i = path.size() -1; i >=0; i--){
-            cout << char('A' + path[i]);
+        for(int i = camino.size() -1; i >=0; i--){
+            cout << char('A' + camino[i]);
             if (i > 0){
                 cout << "->";
             }
@@ -66,30 +79,32 @@ int main(){
         arch >>  n;
         arch.ignore();
         
-        vector<vector<int>> matriz(n, vector<int>(n));
+        vector<Nodo*> grafico;
 
-        for(int i =0; i<n; i++){
-            string linea;
+        for(int i = 0; i < n; i++){
+            grafico.push_back(new Nodo('A' + i, i));
+        }
+        
+        string linea;
+        for(int i = 0; i<n;i++){
             getline(arch, linea);
             stringstream ss(linea);
             string num;
 
-            for(int j= 0;j<n;j++){
+            for(int j = 0; j<n; j++){
                 getline(ss, num, ',');
-                matriz[i][j] = stoi(num);
+                int peso = stoi(num);
+                if (peso != 0){
+                    grafico[i]->vecinos.push_back({grafico[j], peso});
+                }
             }
         }
 
         arch.close();
 
     cout << "Nodos existentes:" << endl;
-    for(int i = 0;i<n;i++){
-        for(int j=0; j<n; j++){
-            if(matriz[i][j] !=0 || matriz [j][i] != 0 || i ==j){
-                existe = true;
-                break;
-            }
-        }
+    for(int i = 0; i < n; i++){
+        cout << char('A' + i) << " ";
     }
     cout << endl;
 
@@ -99,7 +114,7 @@ int main(){
 
     int dest = nodo_destino - 'A';
 
-    dijkstra(matriz, 0, dest);
+    dijkstra(grafico, 0, dest);
     
     }else{
         cout << "No se pudo abrir el archivo. " << endl;
