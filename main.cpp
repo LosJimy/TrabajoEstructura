@@ -10,7 +10,7 @@ using namespace std;
 
 const int INF = numeric_limits<int>::max();
 
-class Nodo{
+class Nodo{ //Clase de Nodo con constructor
 public: 
     pair<char, int> nombreIndice;
     vector<pair<Nodo*, int>> vecinos;
@@ -20,7 +20,7 @@ public:
     }
 };
 
-void dijkstra(vector<Nodo*> &grafico, int inicio, int destino){
+void dijkstra(vector<Nodo*> &grafico, int inicio, int destino){ //Funcion de dijkstra 
     int n = grafico.size();
     vector<int> distancia(n,INF);
     vector<int> padre(n, -1);
