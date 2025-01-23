@@ -70,7 +70,7 @@ void dijkstra(vector<Nodo*> &grafico, int inicio, int destino){ //Funcion de dij
 
 int main(){
     string nombreArch;
-    cout << "Ingrese el nombre del archivo: ";
+    cout << "Ingrese el nombre del archivo (ej: archivo.txt): ";
     cin >> nombreArch;
     fstream arch(nombreArch);
 
@@ -109,12 +109,18 @@ int main(){
     cout << endl;
 
     char nodo_destino;
-    cout << "(Con mayusculas las letras)" << endl;
-    cout << "Ingrese hasta que nodo quiere llegar: ";
-    cin >> nodo_destino;
+    int dest;
+    do{
+        cout << "(Con mayusculas las letras)" << endl;
+        cout << "Ingrese hasta que nodo quiere llegar: ";
+        cin >> nodo_destino;
+        dest = nodo_destino - 'A';
 
-    int dest = nodo_destino - 'A';
-
+        if(dest < 0 || dest >= n){
+            cout << "Inserte un Nodo existente" << endl;
+        }
+    }while(dest < 0 || dest >= n);
+    
     dijkstra(grafico, 0, dest);
     
     }else{
