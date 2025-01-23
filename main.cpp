@@ -109,6 +109,7 @@ int main(){
     cout << endl;
 
     char nodo_destino;
+    cout << "(Con mayusculas las letras)" << endl;
     cout << "Ingrese hasta que nodo quiere llegar: ";
     cin >> nodo_destino;
 
