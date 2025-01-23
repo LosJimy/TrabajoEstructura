@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const int INF = numeric_limits<int>::max();
+const int INF = numeric_limits<int>::max(); //creaci[on de INF para no usar 999999999999]
 
 class Nodo{ //Clase de Nodo con constructor
 public: 
@@ -74,7 +74,7 @@ int main(){
     cin >> nombreArch;
     fstream arch(nombreArch);
 
-    if (arch.is_open()){
+    if (arch.is_open()){ 
         int n;
         arch >>  n;
         arch.ignore();
@@ -85,7 +85,7 @@ int main(){
             grafico.push_back(new Nodo('A' + i, i));
         }
         
-        string linea;
+        string linea; //leer archivo
         for(int i = 0; i<n;i++){
             getline(arch, linea);
             stringstream ss(linea);
@@ -110,7 +110,7 @@ int main(){
 
     char nodo_destino;
     int dest;
-    do{
+    do{ //ciclo Do While para preguntar hasta que se inserte un nodo que existe
         cout << "(Con mayusculas las letras)" << endl;
         cout << "Ingrese hasta que nodo quiere llegar: ";
         cin >> nodo_destino;
@@ -124,7 +124,7 @@ int main(){
     dijkstra(grafico, 0, dest);
     
     }else{
-        cout << "No se pudo abrir el archivo. " << endl;
+        cout << "No se pudo abrir el archivo. " << endl; //por si no funciona el archivo
     }
 
 
